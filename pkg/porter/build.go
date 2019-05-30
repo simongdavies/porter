@@ -79,7 +79,7 @@ func (p *Porter) buildDockerfile() ([]string, error) {
 	// Defer cnab/porter.yaml copy lines until very last, as these perhaps more subject to change
 	lines = append(lines, p.buildCNABSection()...)
 	lines = append(lines, p.buildPorterSection()...)
-	lines = append(lines, p.buildCMDSection())
+	lines = append(lines, p.buildCMDSection()...)
 
 	for _, line := range lines {
 		fmt.Fprintln(p.Out, line)
@@ -134,8 +134,11 @@ func (p *Porter) buildCNABSection() []string {
 	}
 }
 
-func (p *Porter) buildCMDSection() string {
-	return `CMD ["/cnab/app/run"]`
+func (p *Porter) buildCMDSection() []string {
+	return []string{
+		`RUN chmod 755 "/cnab/app/run"`,
+		`CMD ["/cnab/app/run"]`,
+	}
 }
 
 func (p *Porter) buildMixinsSection() ([]string, error) {
