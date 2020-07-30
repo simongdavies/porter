@@ -9,14 +9,15 @@ parameters:
   goversion: '1.13.10'
 
 jobs:
-  pool: ${{ parameters.pool }}
 - job: setup
+  pool: ${{ parameters.pool }}
   steps:
   - script: ./build/doc-only-build.sh
     name: BUILD
     displayName: 'Check Doc Only Build'
 
 - job: test
+  pool: ${{ parameters.pool }}
   dependsOn: setup
   condition: eq(dependencies.setup.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
@@ -37,6 +38,7 @@ jobs:
     displayName: 'Unit Test'
 
 - job: compile
+  pool: ${{ parameters.pool }}
   dependsOn: setup
   condition: eq(dependencies.setup.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
@@ -52,6 +54,7 @@ jobs:
     displayName: 'Cross Compile'
 
 - job: validate_example_bundles
+  pool: ${{ parameters.pool }}
   dependsOn: setup
   condition: eq(dependencies.setup.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
@@ -73,6 +76,7 @@ jobs:
     displayName: 'Validate Example Bundles'
 
 - job: integration_test
+  pool: ${{ parameters.pool }}
   dependsOn: setup
   condition: eq(dependencies.setup.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
@@ -92,6 +96,7 @@ jobs:
     displayName: 'Integration Test'
 
 - job: cli_test
+  pool: ${{ parameters.pool }}
   dependsOn: setup
   condition: eq(dependencies.setup.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
