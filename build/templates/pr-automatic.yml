@@ -3,20 +3,13 @@
 # Add steps that test, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/go
 
-trigger: none
 
 parameters:
   pool: ''
   goversion: '1.13.10'
-  debug: false
-
-variables:
-  GOVERSION: '${{ parameters.goversion }}'
-  System.Debug: ${{ parameters.debug }}
-
-pool: '${{ parameters.pool }}'
 
 jobs:
+  pool: '${{ parameters.pool }}'
 - job: setup
   steps:
   - script: ./build/doc-only-build.sh
@@ -29,7 +22,7 @@ jobs:
   steps:
   - task: GoTool@0
     inputs:
-      version: '$(GOVERSION)'
+      version: '${{ parameters.goversion }}'
   - script: build/azure-pipelines.setup-go-workspace.sh
     displayName: 'Set up the Go workspace'
 
@@ -49,7 +42,7 @@ jobs:
   steps:
   - task: GoTool@0
     inputs:
-      version: '$(GOVERSION)'
+      version: '${{ parameters.goversion }}'
   - script: build/azure-pipelines.setup-go-workspace.sh
     displayName: 'Set up the Go workspace'
 
@@ -64,7 +57,7 @@ jobs:
   steps:
   - task: GoTool@0
     inputs:
-      version: '$(GOVERSION)'
+      version: '${{ parameters.goversion }}'
   - script: build/azure-pipelines.setup-go-workspace.sh
     displayName: 'Set up the Go workspace'
 
@@ -85,7 +78,7 @@ jobs:
   steps:
   - task: GoTool@0
     inputs:
-      version: '$(GOVERSION)'
+      version: '${{ parameters.goversion }}'
   - script: build/azure-pipelines.setup-go-workspace.sh
     displayName: 'Set up the Go workspace'
 
@@ -104,7 +97,7 @@ jobs:
   steps:
   - task: GoTool@0
     inputs:
-      version: '$(GOVERSION)'
+      version: '${{ parameters.goversion }}'
   - script: build/azure-pipelines.setup-go-workspace.sh
     displayName: 'Set up the Go workspace'
 

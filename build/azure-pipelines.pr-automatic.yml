@@ -15,11 +15,9 @@ jobs:
     pool:
       vmImage: 'macOS-10.15'
     goversion: '$(GOVERSION)'
-    debug: $(System.Debug)
 
 - template: templates/pr-automatic.yml  
   parameters:
     pool:
       vmImage: 'ubuntu-18.04'
     goversion: '$(GOVERSION)'
-    debug: $(System.Debug)
