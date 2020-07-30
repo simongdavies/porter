@@ -10,7 +10,7 @@ parameters:
   goversion: '1.13.10'
 
 jobs:
-- job: 'setup-${{ parameters.name }}'
+- job: 'setup${{ parameters.name }}'
   pool: ${{ parameters.pool }}
   steps:
   - script: ./build/doc-only-build.sh
@@ -19,13 +19,13 @@ jobs:
 
 - job: 'test ${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup-${{ parameters.name }}
-  condition: eq(dependencies.setup-${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup${{ parameters.name }}
+  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
       version: '${{ parameters.goversion }}'
-  - script: build/azure-pipelines.setup-go-workspace.sh
+  - script: build/azure-pipelines.setupgo-workspace.sh
     displayName: 'Set up the Go workspace'
 
   - script: |
@@ -38,15 +38,15 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Unit Test'
 
-- job: 'compile-${{ parameters.name }}'
+- job: 'compile${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup-${{ parameters.name }}
-  condition: eq(dependencies.setup-${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup${{ parameters.name }}
+  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
       version: '${{ parameters.goversion }}'
-  - script: build/azure-pipelines.setup-go-workspace.sh
+  - script: build/azure-pipelines.setupgo-workspace.sh
     displayName: 'Set up the Go workspace'
 
   - script: |
@@ -54,15 +54,15 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Cross Compile'
 
-- job: 'validate_example_bundles-${{ parameters.name }}'
+- job: 'validate_example_bundles${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup-${{ parameters.name }}
-  condition: eq(dependencies.setup-${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup${{ parameters.name }}
+  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
       version: '${{ parameters.goversion }}'
-  - script: build/azure-pipelines.setup-go-workspace.sh
+  - script: build/azure-pipelines.setupgo-workspace.sh
     displayName: 'Set up the Go workspace'
 
   - script: |
@@ -76,15 +76,15 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Validate Example Bundles'
 
-- job: 'integration_test-${{ parameters.name }}'
+- job: 'integration_test${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup-${{ parameters.name }}
-  condition: eq(dependencies.setup-${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup${{ parameters.name }}
+  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
       version: '${{ parameters.goversion }}'
-  - script: build/azure-pipelines.setup-go-workspace.sh
+  - script: build/azure-pipelines.setupgo-workspace.sh
     displayName: 'Set up the Go workspace'
 
   - script: |
@@ -96,15 +96,15 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Integration Test'
 
-- job: 'cli_test-${{ parameters.name }}'
+- job: 'cli_test${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup-${{ parameters.name }}
-  condition: eq(dependencies.setup-${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup${{ parameters.name }}
+  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
       version: '${{ parameters.goversion }}'
-  - script: build/azure-pipelines.setup-go-workspace.sh
+  - script: build/azure-pipelines.setupgo-workspace.sh
     displayName: 'Set up the Go workspace'
 
   - script: |
