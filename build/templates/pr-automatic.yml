@@ -10,17 +10,17 @@ parameters:
   goversion: '1.13.10'
 
 jobs:
-- job: 'setup${{ parameters.name }}'
+- job: 'setup_${{ parameters.name }}'
   pool: ${{ parameters.pool }}
   steps:
   - script: ./build/doc-only-build.sh
     name: BUILD
     displayName: 'Check Doc Only Build'
 
-- job: 'test ${{ parameters.name }}'
+- job: 'test${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup${{ parameters.name }}
-  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup_${{ parameters.name }}
+  condition: eq(dependencies.setup_${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
@@ -38,10 +38,10 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Unit Test'
 
-- job: 'compile${{ parameters.name }}'
+- job: 'compile_${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup${{ parameters.name }}
-  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup_${{ parameters.name }}
+  condition: eq(dependencies.setup_${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
@@ -54,10 +54,10 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Cross Compile'
 
-- job: 'validate_example_bundles${{ parameters.name }}'
+- job: 'validate_example_bundles_${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup${{ parameters.name }}
-  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup_${{ parameters.name }}
+  condition: eq(dependencies.setup_${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
@@ -76,10 +76,10 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Validate Example Bundles'
 
-- job: 'integration_test${{ parameters.name }}'
+- job: 'integration_test_${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup${{ parameters.name }}
-  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup_${{ parameters.name }}
+  condition: eq(dependencies.setup_${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
@@ -96,10 +96,10 @@ jobs:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     displayName: 'Integration Test'
 
-- job: 'cli_test${{ parameters.name }}'
+- job: 'cli_test_${{ parameters.name }}'
   pool: ${{ parameters.pool }}
-  dependsOn: setup${{ parameters.name }}
-  condition: eq(dependencies.setup${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
+  dependsOn: setup_${{ parameters.name }}
+  condition: eq(dependencies.setup_${{ parameters.name }}.outputs['BUILD.DOCS_ONLY'], 'false')
   steps:
   - task: GoTool@0
     inputs:
