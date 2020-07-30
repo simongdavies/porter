@@ -9,7 +9,7 @@ parameters:
   goversion: '1.13.10'
 
 jobs:
-  pool: '${{ parameters.pool }}'
+  pool: ${{ parameters.pool }}
 - job: setup
   steps:
   - script: ./build/doc-only-build.sh
